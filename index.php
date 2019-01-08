@@ -1,0 +1,1 @@
+<?php echo "Servidor Criado com conexão ao banco de dados e ao phpmyadmin"; ?>

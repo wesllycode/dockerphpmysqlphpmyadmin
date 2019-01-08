@@ -1,0 +1,40 @@
+version: "3.1"
+services:
+  www:
+    container_name: www_php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8090:80
+    volumes:
+      - ./:/var/www/html
+    restart: always  
+    networks:
+      - www_phpmysql_network
+  mysql_db:
+    container_name: mysql57_container
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=phpcurso  
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    restart: always  
+    networks:
+      - www_phpmysql_network
+  phpmyadmin:
+    container_name: phpmyadmin_container
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      - PMA_HOST=mysql57_container
+      - PMA_USER=root
+      - PMA_PASSWORD=phpcurso
+    restart: always
+    ports:
+      - 8091:80
+    networks:
+     - www_phpmysql_network   
+networks:
+  www_phpmysql_network:
